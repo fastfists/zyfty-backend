@@ -1,0 +1,100 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model image_group {
+  id         BigInt   @id @default(autoincrement())
+  created_at DateTime @db.DateTime(0)
+  update_at  DateTime @db.DateTime(0)
+  nft_image  String?  @db.VarChar(255)
+  nft_id     BigInt
+
+  nft     nfts   @relation(fields: [nft_id], references: [id])
+
+  @@index([nft_id], map: "FK2eujn0y93xp5dwecfb6j104o8")
+}
+
+model nft_request {
+  id             BigInt   @id @default(autoincrement())
+  created_at     DateTime @db.DateTime(0)
+  update_at      DateTime @db.DateTime(0)
+  email          String?  @db.VarChar(255)
+  has_permission Boolean  @db.Bit(1)
+  is_interested  Boolean  @db.Bit(1)
+  name           String?  @db.VarChar(255)
+}
+
+model nfts {
+  id                     BigInt    @id @default(autoincrement())
+  created_at             DateTime  @db.DateTime(0)
+  update_at              DateTime  @db.DateTime(0)
+  address                String?   @db.VarChar(255)
+  address_number         BigInt?
+  auction_date           DateTime? @db.DateTime(0)
+  bath_rooms             BigInt?
+  bed_rooms              BigInt?
+  city                   String?   @db.VarChar(255)
+  currency               String?   @db.VarChar(255)
+  hoa_fee                String?   @db.VarChar(255)
+  hoa_inculdes           String?   @db.VarChar(255)
+  hoa_name               String?   @db.VarChar(255)
+  living_area            Float     @db.Float
+  lot_size               Float     @db.Float
+  minimum_offer          String?   @db.VarChar(255)
+  owned_by               String?   @db.VarChar(255)
+  property_in_flood_zone String?   @db.VarChar(255)
+  property_type          String?   @db.VarChar(255)
+  registered_user_email  String?   @db.VarChar(255)
+  sale_ends_date         DateTime? @db.DateTime(0)
+  state                  String?   @db.VarChar(255)
+  stories                String?   @db.VarChar(255)
+  tax_amount             BigInt?
+  tax_year               BigInt?
+  unit_number            BigInt?
+  year_built             BigInt?
+  zip                    BigInt?
+  zoning                 String?   @db.VarChar(255)
+  thumbnail_id           Int
+
+  imageList              image_group[]
+}
+
+model token {
+  id           BigInt    @id @default(autoincrement())
+  confirmed_at DateTime? @db.DateTime(0)
+  created_at   DateTime? @db.DateTime(0)
+  expired_at   DateTime? @db.DateTime(0)
+  status       String?   @db.VarChar(255)
+  token        String?   @db.VarChar(255)
+  user_id      BigInt
+
+  @@index([user_id], map: "FKe32ek7ixanakfqsdaokm4q9y2")
+}
+
+model user {
+  id          BigInt    @id @default(autoincrement())
+  country     String?   @db.VarChar(255)
+  created_at  DateTime? @db.DateTime(0)
+  is_verified Boolean   @db.Bit(1)
+  logged_in   Boolean   @db.Bit(1)
+  password    String?   @db.VarChar(255)
+  token       String?   @db.VarChar(255)
+  token_type  String?   @db.VarChar(255)
+  updated_at  DateTime? @db.DateTime(0)
+  user_name   String?   @db.VarChar(255)
+
+
+}
+
+model whitepaper_request {
+  id         BigInt   @id @default(autoincrement())
+  created_at DateTime @db.DateTime(0)
+  update_at  DateTime @db.DateTime(0)
+  email      String?  @db.VarChar(255)
+  name       String?  @db.VarChar(255)
+}
